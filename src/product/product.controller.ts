@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -10,6 +10,14 @@ export class ProductController {
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productService.create(createProductDto);
+  }
+
+  @Get('top3')
+  async findTop3() {
+    return {
+      statusCode: HttpStatus.OK,
+      data: await this.productService.findTop3(),
+    };
   }
 
   @Get()

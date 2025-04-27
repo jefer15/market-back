@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { OrderDetail } from 'src/order-detail/entities/order-detail.entity';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('products')
 export class Product {
@@ -13,4 +14,7 @@ export class Product {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.product)
+  order_details: OrderDetail[];
 }

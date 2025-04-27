@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -8,27 +8,43 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  async create(@Body() createOrderDto: CreateOrderDto) {
+    return {
+      statusCode: HttpStatus.CREATED,
+      data: await this.orderService.create(createOrderDto),
+    };
   }
 
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  async findAll() {
+    return {
+      statusCode: HttpStatus.OK,
+      data: await this.orderService.findAll(),
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return {
+      statusCode: HttpStatus.OK,
+      data: await this.orderService.findOne(+id),
+    };
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return {
+      statusCode: HttpStatus.OK,
+      data: await this.orderService.update(+id, updateOrderDto),
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.orderService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.orderService.remove(+id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Order deleted successfully',
+    };
   }
 }
