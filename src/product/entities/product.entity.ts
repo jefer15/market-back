@@ -1,7 +1,8 @@
+import { Exclude } from 'class-transformer';
 import { OrderDetail } from 'src/order-detail/entities/order-detail.entity';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('products')
+@Entity('product')
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
@@ -16,5 +17,6 @@ export class Product {
   created_at: Date;
 
   @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.product)
+  @Exclude()
   order_details: OrderDetail[];
 }

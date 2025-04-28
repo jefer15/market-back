@@ -21,8 +21,12 @@ export class ProductController {
   }
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  async findAll() {
+    return {
+      statusCode: HttpStatus.OK,
+      data: await this.productService.findAll()
+    }
+   
   }
 
   @Get(':id')

@@ -16,8 +16,8 @@ export class ProductService {
     return 'This action adds a new product';
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll() {
+    return this.productRepository.find();
   }
 
   async findTop3(): Promise<any[]> {
