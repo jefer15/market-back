@@ -28,13 +28,16 @@ export class ProductService {
         'product.id AS id',
         'product.name AS name',
         'product.price AS price',
-        'SUM(order_detail.quantity) AS total_quantity',
+        'COALESCE(SUM(order_detail.quantity), 0) AS total_quantity',
       ])
-      .groupBy('product.id, product.name, product.price')
+      .groupBy('product.id')
+      .addGroupBy('product.name')
+      .addGroupBy('product.price')
       .orderBy('total_quantity', 'DESC')
       .limit(3)
       .getRawMany();
   }
+  
 
   findOne(id: number) {
     return `This action returns a #${id} product`;
